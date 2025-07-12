@@ -1,0 +1,95 @@
+@import '../../../styles/variables.scss';
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 3.6rem 7.2rem 14rem 7.2rem;
+
+    .title {
+        font-size: 2rem;
+        color: $black-300;
+
+        b {
+            font-size: 2rem;
+            color: $orange-100;
+        }
+    }
+
+    .form {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 3.6rem;
+
+        background-color: $white-100;
+        border-radius: 4.8rem;
+        padding: 1.6rem 3.4rem;
+
+        .country {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            height: fit-content;
+
+            p {
+                font-size: 1.8rem;
+                color: $black-400;
+            }
+        }
+
+        .state, .city {
+            height: fit-content;
+            
+            .state-select, .city-select {
+                display: flex;
+                flex-direction: column;
+                gap: 0.4rem;
+
+                span {
+                    line-height: 1.2rem;
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    color: $orange-100;
+                }
+
+                div {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 1rem;
+
+                    p {
+                        font-size: 1.6rem;
+                        line-height: 1.6rem;
+                        color: $black-400;
+                    }
+                }
+            }
+        }
+
+        .spacer {
+            width: 0.2rem;
+            height: 4rem;
+            background-color: $black-25;
+        }
+
+        button {
+            width: 4.2rem;
+            height: 4.2rem;
+            border: none;
+            border-radius: 100%;
+            background-color: $orange-100;
+            transition: ease-in-out 0.3s;
+
+            .search-icon {
+                color: $white;
+            }
+        }
+
+        button:hover {
+            cursor: pointer;
+            background-color: $yellow-100;
+        }
+    }
+}
