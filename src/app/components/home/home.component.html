@@ -1,6 +1,6 @@
 <header>
     <p class="title">
-        Sua <b>Voz</b>. Seu <b>Bairro</b>.
+        Seu <b>Bairro</b>. Sua <b>Voz</b>.
     </p>
 
     <div class="form">
@@ -40,11 +40,30 @@
         </button>
     </div>
 
-    <div>
-        <div>
-            <span>E</span>
+    <div class="profile">
+        <div class="profile-info">
+            <div class="wrapper-profile-photo">
+                <span>E</span>
+            </div>
+            <p>👋 Olá, <b>Cidadão!</b></p>
+            <lucide-icon [img]="chevronDownIcon" size="16" (click)="openProfileMenu = !openProfileMenu"></lucide-icon>
         </div>
-        <p>Olá, <b>Cidadão!</b></p>
-        <p>T</p>
+
+        <ul class="profile-menu" *ngIf="openProfileMenu">
+            <li>
+                <span>Configurações</span>
+                <lucide-icon [img]="settingsIcon" size="16"></lucide-icon>
+            </li>
+
+            <li>
+                <span>Settings</span>
+                <lucide-icon [img]="settingsIcon" size="16"></lucide-icon>
+            </li>
+
+            <li>
+                <span>Ajustes</span>
+                <lucide-icon [img]="settingsIcon" size="16"></lucide-icon>
+            </li>
+        </ul>
     </div>
 </header>

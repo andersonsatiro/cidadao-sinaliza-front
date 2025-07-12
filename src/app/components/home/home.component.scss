@@ -85,11 +85,109 @@ header {
             .search-icon {
                 color: $white;
             }
+
+            &:hover {
+                cursor: pointer;
+                background-color: $yellow-100;
+            }
+        }
+    }
+
+    .profile {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+
+            .wrapper-profile-photo {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 2.4rem;
+                height: 2.4rem;
+                border-radius: 100%;
+                background-color: $orange-100;
+
+                span {
+                    font-size: 1.4rem;
+                    color: $white-200;
+                    font-weight: bold;
+                }
+            }
+
+            p {
+                font-size: 1.8rem;  
+                color: $black-500;
+            
+                b {
+                    font-size: 1.8rem;
+                    color: $orange-100;
+                }
+            }
+
+            lucide-icon {
+                cursor: pointer;
+                color: $black-400;
+                transition: color 0.3s ease-in-out;
+
+                &:hover {
+                    color: $orange-100;
+                }
+            }
         }
 
-        button:hover {
-            cursor: pointer;
-            background-color: $yellow-100;
+        .profile-menu {
+            position: absolute;
+            margin-top: 4rem;
+            width: 100%;
+            background-color: $white-200;
+            border-radius: 0.8rem;
+            box-shadow: 0 0.4rem 1.4rem rgba(0, 0, 0, 0.1);
+
+            li {
+                list-style: none;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 1.2rem 1.6rem;
+                transition: ease-in-out 0.3s;
+
+                span {
+                    font-size: 1.2rem;
+                    color: $black-500;
+                    transition: ease-in-out 0.3s;
+                }
+
+                lucide-icon {
+                    color: $orange-100;
+                }
+
+                &:not(:last-child) {
+                    border-bottom: 0.15rem solid $black-25;
+                }
+
+                &:first-child {
+                    border-radius: 0.8rem 0.8rem 0 0;
+                }
+
+                &:last-child {
+                    border-radius: 0 0 0.8rem 0.8rem;
+                }
+
+                &:hover {
+                    background-color: $black-25;
+                    cursor: pointer;
+
+                    span {
+                        color: $orange-100;
+                    }
+                }
+            }
         }
     }
 }
