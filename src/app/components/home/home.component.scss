@@ -1,4 +1,4 @@
-@import '../../../styles/variables.scss';
+@use '../../../styles/variables';
 
 header {
     display: flex;
@@ -8,11 +8,11 @@ header {
 
     .title {
         font-size: 2rem;
-        color: $black-300;
+        color: variables.$black-300;
 
         b {
             font-size: 2rem;
-            color: $orange-100;
+            color: variables.$orange-100;
         }
     }
 
@@ -22,7 +22,7 @@ header {
         justify-content: space-between;
         gap: 3.6rem;
 
-        background-color: $white-100;
+        background-color: variables.$white-100;
         border-radius: 4.8rem;
         padding: 1.6rem 3.4rem;
 
@@ -34,11 +34,16 @@ header {
 
             p {
                 font-size: 1.8rem;
-                color: $black-400;
+                color: variables.$black-400;
             }
         }
 
         .state, .city {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+
+            position: relative;
             height: fit-content;
             
             .state-select, .city-select {
@@ -50,7 +55,7 @@ header {
                     line-height: 1.2rem;
                     font-size: 1.2rem;
                     font-weight: 600;
-                    color: $orange-100;
+                    color: variables.$orange-100;
                 }
 
                 div {
@@ -62,7 +67,31 @@ header {
                     p {
                         font-size: 1.6rem;
                         line-height: 1.6rem;
-                        color: $black-400;
+                        color: variables.$black-400;
+                    }
+                }
+            }
+
+            .state-list, .city-list {
+                position: absolute;
+                top: 120%;
+                width: fit-content;
+                background-color: variables.$white-200;
+                border-radius: 0.8rem;
+                box-shadow: 0 0.4rem 1.4rem rgba(0, 0, 0, 0.1);
+                z-index: 10;
+
+                li {
+                    list-style: none;
+                    padding: 1.2rem 1.6rem;
+                    font-size: 1.4rem;
+                    color: variables.$black-500;
+                    transition: ease-in-out 0.3s;
+
+                    &:hover {
+                        background-color: variables.$black-25;
+                        cursor: pointer;
+                        color: variables.$orange-100;
                     }
                 }
             }
@@ -71,7 +100,7 @@ header {
         .spacer {
             width: 0.2rem;
             height: 4rem;
-            background-color: $black-25;
+            background-color: variables.$black-25;
         }
 
         button {
@@ -79,16 +108,16 @@ header {
             height: 4.2rem;
             border: none;
             border-radius: 100%;
-            background-color: $orange-100;
+            background-color: variables.$orange-100;
             transition: ease-in-out 0.3s;
 
             .search-icon {
-                color: $white;
+                color: variables.$white;
             }
 
             &:hover {
                 cursor: pointer;
-                background-color: $yellow-100;
+                background-color: variables.$yellow-100;
             }
         }
     }
@@ -111,41 +140,41 @@ header {
                 width: 2.4rem;
                 height: 2.4rem;
                 border-radius: 100%;
-                background-color: $orange-100;
+                background-color: variables.$orange-100;
 
                 span {
                     font-size: 1.4rem;
-                    color: $white-200;
+                    color: variables.$white-200;
                     font-weight: bold;
                 }
             }
 
             p {
                 font-size: 1.8rem;  
-                color: $black-500;
+                color: variables.$black-500;
             
                 b {
                     font-size: 1.8rem;
-                    color: $orange-100;
+                    color: variables.$orange-100;
                 }
             }
 
             lucide-icon {
                 cursor: pointer;
-                color: $black-400;
+                color: variables.$black-400;
                 transition: color 0.3s ease-in-out;
 
                 &:hover {
-                    color: $orange-100;
+                    color: variables.$orange-100;
                 }
             }
         }
 
         .profile-menu {
             position: absolute;
-            margin-top: 4rem;
+            top: 140%;
             width: 100%;
-            background-color: $white-200;
+            background-color: variables.$white-200;
             border-radius: 0.8rem;
             box-shadow: 0 0.4rem 1.4rem rgba(0, 0, 0, 0.1);
 
@@ -159,16 +188,16 @@ header {
 
                 span {
                     font-size: 1.2rem;
-                    color: $black-500;
+                    color: variables.$black-500;
                     transition: ease-in-out 0.3s;
                 }
 
                 lucide-icon {
-                    color: $orange-100;
+                    color: variables.$orange-100;
                 }
 
                 &:not(:last-child) {
-                    border-bottom: 0.15rem solid $black-25;
+                    border-bottom: 0.15rem solid variables.$black-25;
                 }
 
                 &:first-child {
@@ -180,11 +209,11 @@ header {
                 }
 
                 &:hover {
-                    background-color: $black-25;
+                    background-color: variables.$black-25;
                     cursor: pointer;
 
                     span {
-                        color: $orange-100;
+                        color: variables.$orange-100;
                     }
                 }
             }

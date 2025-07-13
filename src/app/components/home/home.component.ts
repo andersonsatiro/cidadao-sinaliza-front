@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ChevronDown, LucideAngularModule, Search, Settings } from 'lucide-angular';
+import { GeolocationService } from '../../services/location/geolocation.service';
 
 @Component({
   selector: 'app-home',
@@ -14,4 +15,16 @@ export class HomeComponent {
   readonly settingsIcon = Settings;
 
   openProfileMenu: boolean = false;
+
+  constructor(private geolocation: GeolocationService) {}
+
+  ngOnInit() {
+    this.geolocation.getUserLocation()
+      .then(location => {
+        console.log('User location:', location);
+      })
+      .catch(err => {
+        console.error('Error getting user location:', err);
+      });
+  }
 }
