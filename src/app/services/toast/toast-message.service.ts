@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 
-export type ToastType = 'sucess' | 'error' | 'warning' | 'info';
+export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
 @Injectable({ providedIn: 'root' })
 export class ToastMessageService {
@@ -11,7 +11,7 @@ export class ToastMessageService {
     toast$ = new Subject<{ message: string; type: ToastType }>();
 
     showSuccess(message: string) {
-        this.toast$.next({message, type: 'sucess'});
+        this.toast$.next({message, type: 'success'});
     }
 
     showError(message: string) {

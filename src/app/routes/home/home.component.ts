@@ -43,7 +43,6 @@ export class HomeComponent {
   }
 
   clickButton() {
-    alert('Botão clicado!');
-    this.toastMessage.showSuccess('Botão clicado com sucesso!');
+    this.toastMessage.showSuccess('Botão clicado com sucesso! Agora você pode ver esta mensagem de sucesso. Alegria! 🎉');
   }
 }

@@ -1,3 +1,14 @@
-<div class="toast" style="color: black; font-size: 3rem;" *ngIf="show" [ngClass]="type">
-  testando se aqui funciona {{ message }}
+<div class="toast" *ngIf="show" [ngClass]="type">
+  <div class="toast-icon">
+    <lucide-icon [img]="getMessageIcon()" size="20"></lucide-icon>
+  </div>
+  
+  <div class="toast-content">
+    <h5> {{ getMessageTitle() }} </h5>
+    <p> {{ message }} </p>
+  </div>
+
+  <button class="toast-close" (click)="show = false">
+    <lucide-icon [img]="CloseIcon" size="20"></lucide-icon>
+  </button>
 </div>
