@@ -27,7 +27,7 @@ export class ToastComponent implements OnInit {
       this.type = type;
       this.show = true;
 
-      setTimeout(() => (this.show = false), 50000);
+      setTimeout(() => (this.show = false), 5000);
     });
   }
 

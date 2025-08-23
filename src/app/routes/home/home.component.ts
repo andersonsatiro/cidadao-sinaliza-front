@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ChevronDown, LucideAngularModule, Search, Settings } from 'lucide-angular';
+import { ChevronDown, Hand, LocateFixed, LucideAngularModule, Search, Settings, Sparkles } from 'lucide-angular';
 import { GeolocationService } from '../../services/location/geolocation.service';
 import { ToastMessageService } from '../../services/toast/toast-message.service';
+import { find } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -14,8 +15,12 @@ export class HomeComponent {
   readonly searchIcon = Search;
   readonly chevronDownIcon = ChevronDown;
   readonly settingsIcon = Settings;
+  readonly locateFixedIcon = LocateFixed;
+  readonly handIcon = Hand;
+  readonly sparklesIcon = Sparkles;
 
   openProfileMenu: boolean = false;
+  openLocationModal: boolean = false;
 
   constructor(
     private geolocation: GeolocationService,
@@ -23,8 +28,31 @@ export class HomeComponent {
   ){}
 
   ngOnInit() {
-    this.checkUserType();
+    if (this.checkIsUserLogado()) {
+      // Busca a localização do usuário
+    } else {
 
+      this.geolocation.getUserCoordinates().then(coordinates => {
+        console.log('User coordinates:', coordinates);
+        this.findLocationVisitante();
+      }).catch(error => {
+        this.openLocationModal = true;
+      });
+
+    }
+  }
+
+  getUserCoordinates() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      console.log(position)
+    })
+  }
+
+  findLocationVisitante() {
+    this.openLocationModal = false;     
+    
+    
+    // Implementa a lógica para encontrar a localização do visitante
     this.geolocation.getUserLocation()
       .then(location => {
         console.log('User location:', location);
@@ -34,12 +62,15 @@ export class HomeComponent {
       });
   }
 
-  checkUserType() {
+  checkIsUserLogado(): boolean {
     let token: string | null = localStorage.getItem('token')
 
-    if(token === null || token.trim() === '') {
-      this.toastMessage.showError('Usuário não autenticado. Por favor, faça login.');
-    }
+    if(token === null || token.trim() === '') return false;
+    return true;
+  }
+
+  closeLocationModal() {
+    this.openLocationModal = false;
   }
 
   clickButton() {

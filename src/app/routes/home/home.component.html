@@ -83,3 +83,46 @@
         </ul>
     </div>
 </header>
+
+<div class="modal" *ngIf="openLocationModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="icon-wrapper">
+                <lucide-icon [img]="locateFixedIcon" size="30"></lucide-icon>
+            </div>
+            <h3>Como definir sua localização</h3>
+        </div>
+
+        <div class="modal-body">
+            <p>Escolha uma das opções abaixo para informar onde você está:</p>
+
+            <ul>
+                <li>
+                    <div class="icon-wrapper">
+                        <lucide-icon [img]="sparklesIcon" size="16"></lucide-icon>
+                    </div>
+                    <p><span>Usar GPS:</span> detectaremos automaticamente sua cidade e estado. O navegador solicitará permissão para acessar sua localização — clique em "Permitir".</p>
+                </li>
+
+                <li>
+                    <div class="icon-wrapper">
+                        <lucide-icon [img]="handIcon" size="16"></lucide-icon>
+                    </div>
+                    <p><span>Selecionar manualmente:</span> encontre seu estado e cidade pesquisando na lista no topo do site.</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="modal-footer">
+            <button (click)="findLocationVisitante()">
+                <lucide-icon [img]="locateFixedIcon" size="16"></lucide-icon>
+                <span>Usar GPS</span>
+            </button>
+
+            <button (click)="closeLocationModal()">
+                <lucide-icon [img]="handIcon" size="16"></lucide-icon>
+                <span>Manual</span>
+            </button>
+        </div>
+    </div>
+</div>
