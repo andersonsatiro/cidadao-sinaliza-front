@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastMessageService } from '../toast/toast-message.service';
+import { map, Observable, of } from 'rxjs';
+import { State } from '../../models/state.model';
 
 @Injectable({ providedIn: 'root' })
 export class GeolocationService {
@@ -8,6 +10,15 @@ export class GeolocationService {
         private http: HttpClient,
         private toastMessage: ToastMessageService
     ) {}
+
+    async userPermittedLocationAccess(): Promise<boolean> {
+        try {
+            const PermissionStatus = await navigator.permissions.query({ name: 'geolocation' });
+            return PermissionStatus.state === 'granted';
+        } catch {
+            return false;
+        }
+    }
 
     getUserCoordinates(): Promise<{ latitude: number; longitude: number }> {
         return new Promise((resolve) => {
@@ -51,5 +62,23 @@ export class GeolocationService {
     getAddressFromCoords(lat: number, lon: number) {
         const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`;
         return this.http.get(url);
+    }
+
+    getStatesFromBrazil(): Observable<State[]> {
+        return this.http.get<State[]>('https://servicodados.ibge.gov.br/api/v1/localidades/estados')
+            .pipe(
+                map(data =>
+                    data.map(state => ({
+                        id: state.id,
+                        sigla: state.sigla,
+                        nome: state.nome,
+                        regiao: {
+                            id: state.regiao.id,
+                            sigla: state.regiao.sigla,
+                            nome: state.regiao.nome
+                        }
+                    }))
+                )
+            )
     }
 }

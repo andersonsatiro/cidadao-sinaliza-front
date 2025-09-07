@@ -1,4 +1,4 @@
-<header>
+clickButton<header>
     <p class="title">
         Seu <b>Bairro</b>. Sua <b>Voz</b>.
     </p>
@@ -16,28 +16,31 @@
                 <span>estado</span>
                 <div>
                     <p>Rio Grande do Norte</p>
-                    <lucide-icon [img]="chevronDownIcon" size="16" (click)="toggleStateList()"></lucide-icon>
+                    <lucide-icon [img]="chevronDownIcon" size="16"></lucide-icon>
                 </div>
             </div>
 
-            <ul class="state-list" *ngIf="openStateList"> 
-                <input type="text" placeholder="Pesquisar estado...">
-                <li *ngFor="let state of stateList">{{ state.nome }}</li>
+            <ul class="state-list">
+                <li>Rio Grande do Norte</li>
+                <li>São Paulo</li>
+                <li>Rio de Janeiro</li>
+                <li>Minas Gerais</li>
+                <li>Bahia</li>
             </ul>
         </div>
 
         <div class="spacer"></div>
 
         <div class="city">
-            <div class="city-select">   
+            <div class="city-select">
                 <span>cidade</span>
                 <div>
                     <p>Natal</p>
-                    <lucide-icon [img]="chevronDownIcon" size="16" (click)="toggleCityList()"></lucide-icon>
+                    <lucide-icon [img]="chevronDownIcon" size="16"></lucide-icon>
                 </div>
             </div>
 
-            <ul class="city-list" *ngIf="openCityList">
+            <ul class="city-list">
                 <li>Natal</li>
                 <li>São Paulo</li>
                 <li>Rio de Janeiro</li>
@@ -111,7 +114,7 @@
         </div>
 
         <div class="modal-footer">
-            <button>
+            <button (click)="findLocationVisitante()">
                 <lucide-icon [img]="locateFixedIcon" size="16"></lucide-icon>
                 <span>Usar GPS</span>
             </button>

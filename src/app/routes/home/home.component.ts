@@ -3,7 +3,9 @@ import { Component } from '@angular/core';
 import { ChevronDown, Hand, LocateFixed, LucideAngularModule, Search, Settings, Sparkles } from 'lucide-angular';
 import { GeolocationService } from '../../services/location/geolocation.service';
 import { ToastMessageService } from '../../services/toast/toast-message.service';
-import { find } from 'rxjs';
+import { checkUserStatus } from '../../utils/auth.utils';
+import { State } from '../../models/state.model';
+import { City } from '../../models/city.model';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +22,12 @@ export class HomeComponent {
   readonly sparklesIcon = Sparkles;
 
   openProfileMenu: boolean = false;
+  openStateList: boolean = false;
+  openCityList: boolean = false;
   openLocationModal: boolean = false;
+
+  stateList: State[] = [];
+  cityList: City[] = [];
 
   constructor(
     private geolocation: GeolocationService,
@@ -28,52 +35,53 @@ export class HomeComponent {
   ){}
 
   ngOnInit() {
-    if (this.checkIsUserLogado()) {
-      // Busca a localização do usuário
+    this.handleUserLocationFlow();
+    this.findStatesFromBrazil();
+  }
+
+  async handleUserLocationFlow() {
+    if (checkUserStatus()) {
+      // this.displayUserLocation();
+      return;
+    }
+
+    if (await this.geolocation.userPermittedLocationAccess()) {
+      try {
+        const coordinates = await this.geolocation.getUserLocation();
+        
+        if(coordinates.latitude && coordinates.longitude) {
+          //const address = await this.geolocation.getAddressFromCoords(coordinates.latitude, coordinates.longitude);
+          //console.log('User address:', address);
+        }
+      } catch (error) {
+        this.toastMessage.showError('Não foi possível obter sua localização. Por favor, encontre sua cidade manualmente.');
+      }  
     } else {
-
-      this.geolocation.getUserCoordinates().then(coordinates => {
-        console.log('User coordinates:', coordinates);
-        this.findLocationVisitante();
-      }).catch(error => {
-        this.openLocationModal = true;
-      });
-
+      this.openLocationModal = false; //alterar
     }
   }
 
-  getUserCoordinates() {
-    navigator.geolocation.getCurrentPosition((position) => {
-      console.log(position)
+  findStatesFromBrazil() {
+    this.geolocation.getStatesFromBrazil().subscribe({
+      next: (data) => {
+        this.stateList = data;
+        console.log(this.stateList);
+      },
+      error: (err) => {
+        this.toastMessage.showError('Não foi possível carregar a lista de estados. Tente novamente mais tarde.');
+      }
     })
   }
 
-  findLocationVisitante() {
-    this.openLocationModal = false;     
-    
-    
-    // Implementa a lógica para encontrar a localização do visitante
-    this.geolocation.getUserLocation()
-      .then(location => {
-        console.log('User location:', location);
-      })
-      .catch(err => {
-        console.error('Error getting user location:', err);
-      });
+  closeLocationModal() { this.openLocationModal = false; }
+
+  toggleStateList() {
+    this.openStateList = !this.openStateList;
+    this.openCityList = false;
   }
 
-  checkIsUserLogado(): boolean {
-    let token: string | null = localStorage.getItem('token')
-
-    if(token === null || token.trim() === '') return false;
-    return true;
-  }
-
-  closeLocationModal() {
-    this.openLocationModal = false;
-  }
-
-  clickButton() {
-    this.toastMessage.showSuccess('Botão clicado com sucesso! Agora você pode ver esta mensagem de sucesso. Alegria! 🎉');
+  toggleCityList() {
+    this.openCityList = !this.openCityList;
+    this.openStateList = false;
   }
 }
