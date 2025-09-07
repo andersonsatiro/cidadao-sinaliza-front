@@ -27,6 +27,8 @@ export class HomeComponent {
   openCityList: boolean = false;
   openLocationModal: boolean = false;
 
+  canSelectCity: boolean = false;
+
   stateList: State[] = [];
   stateListBackup: State[] = [];
   cityList: City[] = [];
@@ -35,8 +37,8 @@ export class HomeComponent {
   searchState: string = '';
   searchCity: string = '';
 
-  stateSelected!: State;
-  citySelected!: City;
+  stateSelected!: State | null;
+  citySelected!: City | null;
 
   constructor(
     private geolocation: GeolocationService,
@@ -90,13 +92,18 @@ export class HomeComponent {
   }
 
   toggleCityList() {
+    if (!this.canSelectCity) {
+      this.toastMessage.showWarning('Selecione um estado primeiro.');
+      return;
+    }
+
     this.openCityList = !this.openCityList;
     this.openStateList = false;
   }
 
   filterStates() {
     if (this.searchState.trim() === '') {
-      this.findStatesFromBrazil();
+      this.stateList = this.stateListBackup;
       return;
     }
 
@@ -107,17 +114,51 @@ export class HomeComponent {
 
     this.stateList = filteredStates;
   }
+  
+  filterCities() {
+    if (this.searchCity.trim() === '') {
+      this.cityList = this.cityListBackup;
+      return;
+    }
+
+    let filteredCities = this.cityListBackup.filter(city =>
+      city.nome.toLowerCase().includes(this.searchCity.toLowerCase())
+    );
+
+    this.cityList = filteredCities;
+  }
 
   selectState(state: State) {
+    if(!state) return;
+
     this.stateSelected = state;
     this.openStateList = false;
 
-    this.searchCity = '';
-    this.searchCity = '';
-    this.findCitiesFromState(state.sigla);
+    this.citySelected = null;
+    this.canSelectCity = true;
+
+    this.toastMessage.showSuccess(`Estado selecionado: ${state.nome}`);
+    this.findCitiesFromState(state.id);
   }
 
-  findCitiesFromState(stateSigla: string) {
-    // voltar aqui
+  selectCity(city: City) {
+    if(!city) return;
+
+    this.citySelected = city;
+    this.openCityList = false;
+
+    this.toastMessage.showSuccess(`Cidade selecionada: ${city.nome}`);
+  }
+
+  findCitiesFromState(stateId: number) {
+    this.geolocation.getCitiesFromState(stateId).subscribe({
+      next: data => {
+        this.cityList = data;
+        this.cityListBackup = data;
+      },
+      error: err => {
+        this.toastMessage.showError('Não foi possível carregar a lista de cidades. Tente novamente mais tarde.');
+      }
+    })
   }
 }

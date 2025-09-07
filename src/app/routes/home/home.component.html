@@ -5,7 +5,7 @@
 
     <div class="form">
         <div class="country">
-            <img src="/assets/brasil-flag.svg" alt="Bandeira do Brasil">
+            <img src="/assets/flags/brasil-flag.svg" alt="Bandeira do Brasil">
             <p>Brasil</p>
         </div>
 
@@ -13,9 +13,9 @@
 
         <div class="state">
             <div class="state-select">
-                <span>estado</span>
+                <span [ngClass]="{ 'selected': stateSelected }">estado</span>
                 <div>
-                    <p>Rio Grande do Norte</p>
+                    <p>{{ stateSelected ? stateSelected.nome : 'Selecione um estado' }}</p>
                     <lucide-icon [img]="chevronDownIcon" size="16" (click)="toggleStateList()"></lucide-icon>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                     (input)="filterStates()" autocomplete="off"
                 >
                 
-                <li *ngFor="let state of stateList">
+                <li *ngFor="let state of stateList" (click)="selectState(state)">
                     <img [src]="'assets/flags/' + state.sigla + '.svg'" [alt]="'Bandeira ' + state.sigla">
                     {{ state.nome }}
                 </li>
@@ -40,21 +40,25 @@
 
         <div class="city">
             <div class="city-select">   
-                <span>cidade</span>
+                <span [ngClass]="{'selected': citySelected}">cidade</span>
                 <div>
-                    <p>Natal</p>
+                    <p>{{ citySelected ? citySelected.nome : 'Selecione uma cidade' }}</p>
                     <lucide-icon [img]="chevronDownIcon" size="16" (click)="toggleCityList()"></lucide-icon>
                 </div>
             </div>
 
             <ul class="city-list" *ngIf="openCityList">
-                <input type="text" name="search-state" placeholder="sua cidade...">
-                <li>Natal</li>
-                <li>São Paulo</li>
-                <li>Rio de Janeiro</li>
-                <li>Belo Horizonte</li>
-                <li>Salvador</li>
-                <li>São Gonçalo do Amarante</li>
+                <input
+                    type="text" name="search-state"
+                    placeholder="sua cidade..." [(ngModel)]="searchCity"
+                    (input)="filterCities()" autocomplete="off"
+                >
+                <li *ngFor="let city of cityList" (click)="selectCity(city)">
+                    <img [src]="'assets/flags/' + city.uf.sigla + '.svg'" [alt]="'Bandeira ' + city.uf.sigla">
+                    {{ city.nome }}
+                </li>
+
+                <li *ngIf="cityList.length === 0" (click)="toggleCityList()">Nenhuma cidade encontrada</li>
             </ul>
         </div>
 

@@ -18,16 +18,18 @@ export class ToastComponent implements OnInit {
   show: boolean = false;
   message: string = '';
   type: ToastType = 'info';
+  extraTime?: number;
 
   constructor(private toastService: ToastMessageService) {}
 
   ngOnInit(): void {
-    this.toastService.toast$.subscribe(({ message, type }) => {
+    this.toastService.toast$.subscribe(({ message, type, extraTime }) => {
       this.message = message;
       this.type = type;
       this.show = true;
+      this.extraTime = extraTime;
 
-      setTimeout(() => (this.show = false), 5000);
+      setTimeout(() => (this.show = false), 5000 + (extraTime ?? 0));
     });
   }
 

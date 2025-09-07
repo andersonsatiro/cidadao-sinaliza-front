@@ -8,21 +8,21 @@ export type ToastType = 'success' | 'error' | 'warning' | 'info';
 export class ToastMessageService {
     constructor(private http: HttpClient) {}
 
-    toast$ = new Subject<{ message: string; type: ToastType }>();
+    toast$ = new Subject<{ message: string; type: ToastType, extraTime?: number }>();
 
-    showSuccess(message: string) {
-        this.toast$.next({message, type: 'success'});
+    showSuccess(message: string, extraTime?: number) {
+        this.toast$.next({message, type: 'success', extraTime});
     }
 
-    showError(message: string) {
-        this.toast$.next({message, type: 'error'});
+    showError(message: string, extraTime?: number) {
+        this.toast$.next({message, type: 'error', extraTime});
     }
 
-    showWarning(message: string) {
-        this.toast$.next({message, type: 'warning'});
+    showWarning(message: string, extraTime?: number) {
+        this.toast$.next({message, type: 'warning', extraTime});
     }
 
-    showInfo(message: string) {
-        this.toast$.next({message, type: 'info'});
+    showInfo(message: string, extraTime?: number) {
+        this.toast$.next({message, type: 'info', extraTime});
     }
 }

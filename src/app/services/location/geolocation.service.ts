@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { ToastMessageService } from '../toast/toast-message.service';
 import { map, Observable, of } from 'rxjs';
 import { State } from '../../models/state.model';
+import { City } from '../../models/city.model';
 
 @Injectable({ providedIn: 'root' })
 export class GeolocationService {
@@ -80,5 +81,25 @@ export class GeolocationService {
                     }))
                 )
             )
+    }
+
+    getCitiesFromState(stateId: number): Observable<City[]> {
+        return this.http.get<any[]>(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`)
+            .pipe(
+                map(data => data.map(city => ({
+                    id: city.id,
+                    nome: city.nome,
+                    uf: {
+                        id: city.microrregiao.mesorregiao.UF.id,
+                        sigla: city.microrregiao.mesorregiao.UF.sigla,
+                        nome: city.microrregiao.mesorregiao.UF.nome
+                    },
+                    regiao: {
+                        id: city.microrregiao.mesorregiao.UF.regiao.id,
+                        sigla: city.microrregiao.mesorregiao.UF.regiao.sigla,
+                        nome: city.microrregiao.mesorregiao.UF.regiao.nome
+                    }
+                })))
+            );
     }
 }
