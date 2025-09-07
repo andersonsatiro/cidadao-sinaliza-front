@@ -5,7 +5,7 @@
 
     <div class="form">
         <div class="country">
-            <img src="/images/brasil-flag.svg" alt="Bandeira do Brasil">
+            <img src="/assets/brasil-flag.svg" alt="Bandeira do Brasil">
             <p>Brasil</p>
         </div>
 
@@ -21,8 +21,18 @@
             </div>
 
             <ul class="state-list" *ngIf="openStateList"> 
-                <input type="text" placeholder="Pesquisar estado...">
-                <li *ngFor="let state of stateList">{{ state.nome }}</li>
+                <input
+                    type="text" name="search-state"
+                    placeholder="seu estado..." [(ngModel)]="searchState"
+                    (input)="filterStates()" autocomplete="off"
+                >
+                
+                <li *ngFor="let state of stateList">
+                    <img [src]="'assets/flags/' + state.sigla + '.svg'" [alt]="'Bandeira ' + state.sigla">
+                    {{ state.nome }}
+                </li>
+
+                <li *ngIf="stateList.length === 0" (click)="toggleStateList()">Nenhum estado encontrado</li>
             </ul>
         </div>
 
@@ -38,11 +48,13 @@
             </div>
 
             <ul class="city-list" *ngIf="openCityList">
+                <input type="text" name="search-state" placeholder="sua cidade...">
                 <li>Natal</li>
                 <li>São Paulo</li>
                 <li>Rio de Janeiro</li>
                 <li>Belo Horizonte</li>
                 <li>Salvador</li>
+                <li>São Gonçalo do Amarante</li>
             </ul>
         </div>
 

@@ -6,12 +6,13 @@ import { ToastMessageService } from '../../services/toast/toast-message.service'
 import { checkUserStatus } from '../../utils/auth.utils';
 import { State } from '../../models/state.model';
 import { City } from '../../models/city.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
-  imports: [LucideAngularModule, CommonModule],
+  imports: [LucideAngularModule, CommonModule, FormsModule],
 })
 export class HomeComponent {
   readonly searchIcon = Search;
@@ -27,7 +28,15 @@ export class HomeComponent {
   openLocationModal: boolean = false;
 
   stateList: State[] = [];
+  stateListBackup: State[] = [];
   cityList: City[] = [];
+  cityListBackup: City[] = [];
+
+  searchState: string = '';
+  searchCity: string = '';
+
+  stateSelected!: State;
+  citySelected!: City;
 
   constructor(
     private geolocation: GeolocationService,
@@ -65,7 +74,7 @@ export class HomeComponent {
     this.geolocation.getStatesFromBrazil().subscribe({
       next: (data) => {
         this.stateList = data;
-        console.log(this.stateList);
+        this.stateListBackup = data;
       },
       error: (err) => {
         this.toastMessage.showError('Não foi possível carregar a lista de estados. Tente novamente mais tarde.');
@@ -83,5 +92,32 @@ export class HomeComponent {
   toggleCityList() {
     this.openCityList = !this.openCityList;
     this.openStateList = false;
+  }
+
+  filterStates() {
+    if (this.searchState.trim() === '') {
+      this.findStatesFromBrazil();
+      return;
+    }
+
+    let filteredStates = this.stateListBackup.filter(state =>
+      state.nome.toLowerCase().includes(this.searchState.toLowerCase()) ||
+      state.sigla.toLowerCase().includes(this.searchState.toLowerCase())
+    );
+
+    this.stateList = filteredStates;
+  }
+
+  selectState(state: State) {
+    this.stateSelected = state;
+    this.openStateList = false;
+
+    this.searchCity = '';
+    this.searchCity = '';
+    this.findCitiesFromState(state.sigla);
+  }
+
+  findCitiesFromState(stateSigla: string) {
+    // voltar aqui
   }
 }
